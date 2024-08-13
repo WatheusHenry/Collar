@@ -1,0 +1,6 @@
+<template>
+    <Produto />
+    <PetShop />
+  
+ </template>
+ 
