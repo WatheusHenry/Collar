@@ -1,12 +1,12 @@
 <template>
-  <div class="container">
+  <section class="container">
     <span>
-      <img src="../../public/assets/LogoEscrita.svg" alt="">
+      <img class="logo" src="../theme/assets/LogoEscrita.svg" alt="">
     </span>
     <span>
       <img src="../theme/assets/icons/BellIcon.svg" alt="">
     </span>
-  </div>
+  </section>
 
 </template>
 
@@ -21,6 +21,10 @@ defineProps({
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 2rem;
+  padding: 1.5rem;
+}
+
+.logo {
+  width: 6rem;
 }
 </style>
