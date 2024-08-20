@@ -47,9 +47,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-            'document' => 'required|string|min:11|unique:users',
-            'zip_code' => 'required|string',
+            'password' => 'required|string|min:8',
+            'instagram'=> 'string',
             'phone' => 'required|string',
             'user_level' => 'required|string'
         ]);
@@ -59,15 +58,15 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'document' => $request->document,
-                'zip_code' => $request->zip_code,
+                'instagram' => $request->document,
                 'phone' => $request->phone,
                 'user_level' => $request->user_level,
             ]);
+            
 
             // Gere um token para o usuário recém-registrado
             $token = Auth::login($user);
-
+            // dd($user);
             return response()->json([
                 'status' => 'success',
                 'message' => 'User registered successfully',
