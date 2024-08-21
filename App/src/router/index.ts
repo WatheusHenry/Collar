@@ -6,7 +6,7 @@ import TabsPage from '../views/TabsPage.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/app',
+    redirect: '/app/home',
   },
   {
     path: '/app',
