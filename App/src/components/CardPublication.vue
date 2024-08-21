@@ -34,8 +34,6 @@ const props = defineProps<{
 
 const ionRouter: any = inject('navManager');
 
-
-
 const pubId = props.feedObj.pubId
 const imageNumber = ref(props.feedObj.images.length);
 
