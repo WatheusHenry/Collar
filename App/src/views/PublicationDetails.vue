@@ -95,7 +95,7 @@ const back = () => {
 
   .backButton {
     padding-inline: 1rem;
-    margin-inline: 2rem;
+    margin-inline: 1rem;
     background: none;
   }
 }

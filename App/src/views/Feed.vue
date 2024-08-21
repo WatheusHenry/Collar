@@ -1,7 +1,7 @@
 <template>
   <ion-page>
+    <FeedHeader />
     <ion-content :fullscreen="true">
-      <FeedHeader />
       <ion-refresher slot="fixed" @ionRefresh="handleRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
