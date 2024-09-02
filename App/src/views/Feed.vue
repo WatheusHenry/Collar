@@ -15,7 +15,7 @@
   </ion-page>
 </template>
 
-<style>
+<style scoped>
 .locale {
   display: flex;
   justify-content: flex-end;

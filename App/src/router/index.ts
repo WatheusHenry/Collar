@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import TabsPage from '../views/TabsPage.vue'
+import TabsPage from '@/views/TabsPage.vue';
+import Cadastro from '@/views/Cadastro.vue';
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -9,9 +10,14 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/app/home',
   },
   {
+    path: '/signIn',
+    component:Cadastro,
+  },
+  {
     path: '/app',
-    component:TabsPage,
+    component: TabsPage,
     children: [
+      
       {
         path: '/app/home',
         component: () => import('../views/Feed.vue'),

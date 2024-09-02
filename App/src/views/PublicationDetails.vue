@@ -71,13 +71,16 @@ import FeedHeader from '@/components/FeedHeader.vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+onMounted(() => {
+  
+})
 
+
+  const slides = Array.from({ length: 5 }).map(
+    (el, index) => `Slide ${index + 1}`
+  );
 const router: any = inject('navManager')
 
-
-const slides = Array.from({ length: 5 }).map(
-  (el, index) => `Slide ${index + 1}`
-);
 
 const back = () => {
   router.navigate({
@@ -162,9 +165,11 @@ ion-avatar {
 
   .avatarInfos {
     margin: auto;
-    h1{
+
+    h1 {
       color: #5c5c5c
     }
+
     p {
       font-size: 12px;
       color: #5c5c5c;
@@ -196,9 +201,10 @@ ion-avatar {
   }
 }
 
-.contactDetails{
+.contactDetails {
   padding-inline: 1rem;
-  p{
+
+  p {
     color: #5c5c5c;
     font-size: 12px;
   }

@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
+import PrimeVue from 'primevue/config';
 import App from './App.vue'
 import router from './router';
+import Aura from '@primevue/themes/aura';
 
 import { IonicVue } from '@ionic/vue';
 
@@ -40,4 +42,10 @@ const app = createApp(App)
 
 router.isReady().then(() => {
   app.mount('#app');
+});
+
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura
+  }
 });
