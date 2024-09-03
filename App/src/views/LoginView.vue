@@ -15,13 +15,13 @@
         <div class="footer-controller-login">
             <div class="footer-login-container">
                 <p class="texto-botton-login1">Ainda não tem conta?</p>
-                <p class="texto-botton-login2"><a href="/app/singIn" class="link-color">Cadastre-se</a> e encontre seu pet!</p>
+                <p class="texto-botton-login2"><a href="/signin" class="link-color">Cadastre-se</a> e encontre seu pet!</p>
             </div>
         </div>
       </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 
 </script>
