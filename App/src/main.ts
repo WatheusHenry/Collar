@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
-
+import PrimeVue from 'primevue/config';
+import Aura from '@primevue/themes/aura';
 import { IonicVue } from '@ionic/vue';
 
 /* Core CSS required for Ionic components to work properly */
@@ -36,7 +37,12 @@ import './theme/variables.css';
 
 const app = createApp(App)
   .use(IonicVue)
-  .use(router);
+  .use(router)
+  .use(PrimeVue, {
+    theme: {
+      present: Aura
+    }
+  })
 
 router.isReady().then(() => {
   app.mount('#app');
