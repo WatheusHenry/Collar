@@ -140,14 +140,15 @@ ion-content {
 
   label {
     border-radius: 0.5rem !important;
-    /* padding: 1rem !important; */
   }
 }
 
 .p-inputtext {
   border: #F17441 2px solid !important;
   background-color: #FFB78E !important;
-  color: #ffffff !important;
+  color: #D94509 !important;
+  padding: 0.4rem;
+  border-radius: 0.5rem;
 }
 
 .p-placeholder {
@@ -160,6 +161,9 @@ ion-content {
   border: none;
   width: 10rem;
   font-weight: 600;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: white;
 }
 
 .accountCreated {
