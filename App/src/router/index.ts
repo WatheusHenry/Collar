@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
     component:TabsPage,
     children: [
       {
-        path: "/app/feed",
+        path: "/app/home",
         component: () => import("../views/Feed.vue"),
       },
       {

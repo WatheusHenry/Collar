@@ -9,7 +9,7 @@
             </div>
             <div class="login-esqueceu-container">
                 <P class="texto-esqueceu">Esqueceu sua <a href="" class="link-color">senha?</a></P>
-                <button class="btn-entrar"><a href="/app/feed" class="link-entrar">Entrar</a></button>
+                <button class="btn-entrar"><a href="/app/home" class="link-entrar">Entrar</a></button>
             </div>
 
         <div class="footer-controller-login">
