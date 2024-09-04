@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
      <div class="main-login-container">
-            <img src="C:\Users\USER\OneDrive\Desktop\projetoIntegrador2024-2\ProjetoIntegrador\App\src\theme\assets\icons\collar.svg" class="img-collar">
+            <img src="" class="img-collar">
             <h1 class="title-login">Collar</h1>
             <div class="login-space-container">
                 <input type="text" class="Email" placeholder="E-mail">
@@ -9,7 +9,7 @@
             </div>
             <div class="login-esqueceu-container">
                 <P class="texto-esqueceu">Esqueceu sua <a href="" class="link-color">senha?</a></P>
-                <button class="btn-entrar"><a href="/app/Feed" class="link-entrar">Entrar</a></button>
+                <button class="btn-entrar"><a href="/app/feed" class="link-entrar">Entrar</a></button>
             </div>
 
         <div class="footer-controller-login">
