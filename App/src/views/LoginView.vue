@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
      <div class="main-login-container">
-            <img src="" class="img-collar">
+            <img src="../theme/assets/Logo.svg" alt="" class="img-collar">
             <h1 class="title-login">Collar</h1>
             <div class="login-space-container">
                 <input type="text" class="Email" placeholder="E-mail">
@@ -83,6 +83,9 @@
 
 .login-esqueceu-container{
     margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .btn-entrar{
@@ -90,7 +93,8 @@
     background-color: #FF5C00;
     width: 9.5rem;
     padding: 5 rem;
-    border-radius: 5px;;
+    border-radius: 5px;
+    margin: auto;
 }
 
 
