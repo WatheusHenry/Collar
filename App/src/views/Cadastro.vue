@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import router from '@/router';
-import { IonPage, IonContent, IonAvatar } from '@ionic/vue';
+import { IonPage, IonContent, IonAvatar,IonHeader,IonButton,IonToolbar } from '@ionic/vue';
 import { ref } from 'vue';
 
 

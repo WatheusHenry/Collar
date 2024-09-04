@@ -6,7 +6,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <container class="cardPublication">
+      <section class="cardPublication">
         <div style="padding: 1rem;">
           <ion-avatar>
             <img class="avatarIcon" alt="Silhouette of a person's head"
@@ -18,10 +18,10 @@
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porta elit eget nibh auctor, quis placerat
             nunc ultricies. Nulla at dignissim sapien.</p>
           <div style="margin-top: 1rem;">
-            <img src="../theme/assets/images/Cachorro.png" alt=""
+            <img src="../theme/assets/images/Cachorro.png" alt=""/>
           </div>
         </div>
-      </container>
+      </section>
 
 
     </ion-content>
@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonContent, IonAvatar } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonContent, IonAvatar,IonSearchbar } from '@ionic/vue';
 </script>
 
 <style scoped>

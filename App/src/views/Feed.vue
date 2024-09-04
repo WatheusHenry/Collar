@@ -43,18 +43,16 @@
 </style>
 
 <script setup lang="ts">
-import { IonPage, IonContent, IonRefresherContent } from '@ionic/vue';
+import { IonPage, IonContent, IonRefresher, IonRefresherContent } from '@ionic/vue';
 import FeedHeader from '@/components/FeedHeader.vue';
 import CardPublication from '@/components/CardPublication.vue';
 
 const handleRefresh = (event: CustomEvent) => {
   setTimeout(() => {
-    // Fazendo o cast para o tipo correto antes de acessar a propriedade `complete`
     const refresher = event.target as HTMLIonRefresherElement;
     refresher.complete();
   }, 2000);
 };
-
 
 const feedObjs = [
   {
@@ -79,5 +77,5 @@ const feedObjs = [
     animalStatus: "Animal desaparecido",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent viverra leo et odio hendrerit, id tempor tortor faucibus.Curabitur gravida at mauris vitae ornare...",
   },
-]
+];
 </script>

@@ -8,7 +8,7 @@
                 <input type="text" class="Senha" placeholder="Senha">
             </div>
             <div class="login-esqueceu-container">
-                <P class="texto-esqueceu">Esqueceu sua <a href="" class="link-color">senha?</a></P>
+                <p class="texto-esqueceu">Esqueceu sua <a href="" class="link-color">senha?</a></p>
                 <button class="btn-entrar"><a href="/app/home" class="link-entrar">Entrar</a></button>
             </div>
 
