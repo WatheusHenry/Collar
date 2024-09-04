@@ -10,14 +10,31 @@
       <h1 style="text-align: center;">Fulano da Silva</h1>
     </div>
     <div>
-      <h5 style="text-align: center;">fulanodasilva@gmail.com</h5>
+      <p style="text-align: center; color: #F17441;">fulanodasilva@gmail.com</p>
     </div>
-    <div class="item">
-    <ion-button size="small" style="color: #FFB78E;">
-  <ion-icon slot="start" name="star" ></ion-icon>
-  Editar Perfil
-  </ion-button>
+    <div>
+      <button class="profile">
+        Editar Perfil
+      </button>
     </div>
+    <div class="container-image">
+  <button class="tamanho">
+    <img src="../theme/assets/icons/image-line.svg" alt="Ícone" style="width: 25px; height: auto;">
+    Publicações
+  </button>
+  <button class="tamanho">
+    <img src="../theme/assets/icons/like.svg" alt="Ícone" style="width: 25px; height: auto;">
+    Salvos
+  </button>
+</div>
+  
+<div class="exit">
+  <button class="exit-ajuste">
+    <img src="../theme/assets/icons/exit.svg" alt="Ícone" style="width: 25px; height: auto;">
+    Sair
+  </button>
+</div>
+
 </div>
 
 </template>
@@ -34,15 +51,70 @@ import FeedHeader from '@/components/FeedHeader.vue';
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center
+  align-items: center;
+  margin-top: 2rem
 }
 
-
-.item{
-  justify-content: ;
-}
 
 .button-solid{
   background: none;
+}
+.profile{
+  color: #D94509;
+  background-color: #FFB78E;
+  width: 7rem;
+  height: 3rem;
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  font-size: 16px; 
+  cursor: pointer;
+  padding-left: 1rem;
+}
+.tamanho{
+  color: #696969;
+  background-color: #D9D9D9;
+  width: 20rem;
+  height: 3rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  font-size: 16px; 
+  cursor: pointer;
+  padding-left: 1rem;
+  gap: 10px;
+  border-top: #D9D9D9 1px solid;
+ 
+ 
+
+
+
+}
+
+.container-image{
+  margin-top: 2rem;
+  background-color: #D9D9D9;
+  border-radius: 1rem;
+
+}
+
+
+.exit{
+  margin-top: 20rem;
+}
+
+.exit-ajuste{
+  color: #D90909;
+  background-color: #D9D9D9;
+  width: 20rem;
+  height: 3rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  font-size: 16px; 
+  cursor: pointer;
+  padding-left: 1rem;
+  gap: 10px;
+
 }
 </style>
