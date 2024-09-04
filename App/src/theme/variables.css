@@ -1,3 +1,53 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+.p-fileupload-basic {
+  justify-content: start !important;
+  width: fit-content;
+  gap: 1rem;
+
+
+
+  .p-fileupload-choose-button {
+    border-bottom: #D94509 2px solid !important;
+    border-radius: 0 !important;
+    float: left !important;
+    background-color: transparent !important;
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    color: #D94509;
+    font-weight: 600 !important;
+    padding: 0.1rem !important;
+    text-align: center;
+    vertical-align: middle;
+
+
+    span {
+      display: flex;
+      font-weight: 600;
+    }
+
+
+    svg {
+      display: none !important;
+    }
+  }
+
+  span {
+    display: none;
+  }
+
+  .p-button:focus {
+    color: #FFB78E !important;
+    border-bottom: #D94509 2px solid !important;
+  }
+
+
+}
+
+
+.p-button {
+  border: none !important;
+}

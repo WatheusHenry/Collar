@@ -38,12 +38,14 @@ import './theme/variables.css';
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
-  .use(PrimeVue, {
-    theme: {
-      present: Aura
-    }
-  })
+
 
 router.isReady().then(() => {
   app.mount('#app');
+});
+
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura
+  }
 });
