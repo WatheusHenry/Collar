@@ -3,7 +3,7 @@ http://ionicframework.com/docs/theming/ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 .p-fileupload-basic {
-  justify-content: start !important;
+  justify-content: end !important;
   width: fit-content;
   gap: 1rem;
 
@@ -22,6 +22,7 @@ http://ionicframework.com/docs/theming/ */
     padding: 0.1rem !important;
     text-align: center;
     vertical-align: middle;
+    width: fit-content;
 
 
     span {

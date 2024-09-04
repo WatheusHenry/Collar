@@ -12,8 +12,11 @@
       <div v-if="loading == true" class="publications" v-for="(pub, index) in feedObjs">
         <CardPublication class="" :feed-obj="pub" />
       </div>
+
+      <!-- Skeleton -->
       <div v-if="loading == false" class="skeleton" style="width: 85vw;margin: auto;">
-        <div v-for="i in 2" style="display: flex; justify-content: center;margin-top: 2rem;flex-direction: column;align-items: start;">
+        <div v-for="i in 2"
+          style="display: flex; justify-content: center;margin-top: 2rem;flex-direction: column;align-items: start;">
           <Skeleton width="85vw" height="30vh"></Skeleton>
           <Skeleton width="16rem" style="margin-top: 1rem;" class="mb-2"></Skeleton>
           <Skeleton width="15rem" style="margin-top: 0.5rem;"></Skeleton>

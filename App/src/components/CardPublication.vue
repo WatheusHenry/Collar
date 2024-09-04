@@ -2,7 +2,8 @@
   <section class="card">
     <div @click="openDetails">
       <img class="images" src="../theme/assets/images/Cachorro.png" alt="">
-      <span class="imageIcon"> <img class="icon" src="../theme/assets/icons/ImagesIcon.svg" alt="">
+      <span class="imageIcon">
+        <img class="icon" src="../theme/assets/icons/ImagesIcon.svg" alt="">
         <p class="imageNumber">{{ imageNumber }}</p>
       </span>
       <div class="texts">
@@ -12,17 +13,22 @@
       </div>
     </div>
     <div class="btns">
-      <button @click="reply()"><img class="icon" src="../theme/assets/icons/apoioIcon.svg" alt="">{{ 137 }}</button>
-      <button @click="save()"><img class="icon" style="width: 1.3rem;" src="../theme/assets/icons/HeartIcon.svg"
-          alt="">{{ 0 }}</button>
+      <button @click="toggleReply">
+        <img class="icon" :src="replyIcon" alt="">{{ replys }}
+      </button>
+      <button @click="toggleSave">
+        <img class="icon" style="width: 1.3rem;" :src="saveIcon" alt="">{{ likes }}
+      </button>
     </div>
   </section>
-
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { inject } from 'vue';
+import { ref, inject, computed } from 'vue';
+import apoioIcon from '../theme/assets/icons/apoioIcon.svg';
+import apoioIconActive from '../theme/assets/icons/apoioIconActive.svg';
+import heartIcon from '../theme/assets/icons/HeartIcon.svg';
+import heartIconActive from '../theme/assets/icons/HeartIconActive.svg';
 
 const props = defineProps<{
   feedObj: {
@@ -35,17 +41,32 @@ const props = defineProps<{
   }
 }>();
 
+// Estados reativos para contadores
+const likes = ref(0);
+const replys = ref(137); 
+
 const ionRouter: any = inject('navManager');
 
 const pubId = props.feedObj.pubId
 const imageNumber = ref(props.feedObj.images.length);
 
-const save = () => {
-  console.log("salvo")
+// Estados reativos para os ícones
+const isReplied = ref(false);
+const isSaved = ref(false);
+
+const replyIcon = computed(() => isReplied.value ? apoioIconActive : apoioIcon);
+const saveIcon = computed(() => isSaved.value ? heartIconActive : heartIcon);
+
+const toggleReply = () => {
+  isReplied.value = !isReplied.value;
+  replys.value += isReplied.value ? 1 : -1;
+  console.log("reply toggled");
 }
 
-const reply = () => {
-  console.log("reply")
+const toggleSave = () => {
+  isSaved.value = !isSaved.value;
+  likes.value += isSaved.value ? 1 : -1;
+  console.log("save toggled");
 }
 
 const openDetails = () => {
