@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue'
-import Cadastro from '@/views/Cadastro.vue';
+import Cadastro from '@/views/CadastroView.vue';
 import Login from '@/views/LoginView.vue';
 
 
@@ -26,23 +26,23 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "/app/home",
-        component: () => import("../views/Feed.vue"),
+        component: () => import("../views/FeedView.vue"),
       },
       {
         path: "/app/create",
-        component: () => import("../views/CreatePublication.vue"),
+        component: () => import("../views/CreatePublicationView.vue"),
       },
       {
         path: "/app/search",
-        component: () => import("../views/Search.vue"),
+        component: () => import("../views/SearchView.vue"),
       },
       {
         path: "/app/details/:pubId",
-        component: () => import("../views/PublicationDetails.vue"),
+        component: () => import("../views/PublicationDetailsView.vue"),
       },
       {
         path: "/app/profile",
-        component: () => import("../views/Profile.vue"),
+        component: () => import("../views/ProfileView.vue"),
       },
     
 
