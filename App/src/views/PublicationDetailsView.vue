@@ -126,10 +126,7 @@ const slides = Array.from({ length: 5 }).map(
 );
 
 const back = () => {
-  router.navigate({
-    routerDirection: 'none',
-    routerLink: `/app/home`
-  });
+  history.back()
 }
 </script>
 
