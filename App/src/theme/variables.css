@@ -46,7 +46,9 @@ http://ionicframework.com/docs/theming/ */
 
 
 }
-
+.p-textarea:focus{
+  border: #D94509 1px solid !important;
+}
 
 .p-button {
   border: none !important;
