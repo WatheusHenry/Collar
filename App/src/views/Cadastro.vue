@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <ion-page>
     <ion-content v-if="contaCriada == false" :fullscreen="true">

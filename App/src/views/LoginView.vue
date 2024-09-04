@@ -1,8 +1,5 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
      <div class="main-login-container">
             <img src="C:\Users\USER\OneDrive\Desktop\projetoIntegrador2024-2\ProjetoIntegrador\App\src\theme\assets\icons\collar.svg" class="img-collar">
             <h1 class="title-login">Collar</h1>
@@ -12,16 +9,22 @@
             </div>
             <div class="login-esqueceu-container">
                 <P class="texto-esqueceu">Esqueceu sua <a href="" class="link-color">senha?</a></P>
-                <button class="btn-entrar">Entrar</button>
+                <button class="btn-entrar"><a href="/app/Feed" class="link-entrar">Entrar</a></button>
             </div>
+
+        <div class="footer-controller-login">
             <div class="footer-login-container">
                 <p class="texto-botton-login1">Ainda não tem conta?</p>
-                <p class="texto-botton-login2"><a href="" class="link-color">Cadastre-se</a> e encontre seu pet!</p>
+                <p class="texto-botton-login2"><a href="/signin" class="link-color">Cadastre-se</a> e encontre seu pet!</p>
             </div>
+        </div>
       </div>
 </template>
 
+<script setup lang="ts">
 
+
+</script>
 
 
 
@@ -34,6 +37,12 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+
+.link-entrar{
+    text-decoration: none;
+    color: white;
 }
 
 
@@ -82,6 +91,16 @@
     width: 9.5rem;
     padding: 5 rem;
     border-radius: 5px;;
+}
+
+
+.btn-entrar:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .texto-esqueceu {
