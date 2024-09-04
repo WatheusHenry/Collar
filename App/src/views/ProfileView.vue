@@ -20,11 +20,13 @@
       <div class="container-image">
         <button class="tamanho">
           <img src="../theme/assets/icons/image-line.svg" alt="Ícone" style="width: 25px; height: auto;">
-          Publicações
+          Salvos
+          <img src="../theme/assets/icons/seta.svg" alt="Ícone" style="width: 20px; height: auto; margin-left: 5rem;">
         </button>
         <button class="tamanho">
           <img src="../theme/assets/icons/like.svg" alt="Ícone" style="width: 25px; height: auto;">
           Salvos
+          <img src="../theme/assets/icons/seta.svg" alt="Ícone" style="width: 20px; height: auto; margin-left: 5rem;">
         </button>
       </div>
       
@@ -76,8 +78,8 @@ import FeedHeader from '@/components/FeedHeader.vue';
 
 .tamanho {
   color: #696969;
-  background-color: #D9D9D9;
-  width: 20rem;
+  background-color: #F3F3F3;
+  width: 15rem;
   height: 3rem;
   border-radius: 1rem;
   display: flex;
@@ -86,30 +88,24 @@ import FeedHeader from '@/components/FeedHeader.vue';
   cursor: pointer;
   padding-left: 1rem;
   gap: 10px;
-  border-top: #D9D9D9 1px solid;
-
-
-
-
-
+  border-bottom: #D9D9D9 1px solid;
 }
 
 .container-image {
   margin-top: 2rem;
-  background-color: #D9D9D9;
+  background-color: #F3F3F3;
   border-radius: 1rem;
-
 }
 
 
 .exit {
-  margin-top: 20rem;
+  margin-top: 11rem;
 }
 
 .exit-ajuste {
   color: #D90909;
-  background-color: #D9D9D9;
-  width: 20rem;
+  background-color: #F3F3F3;
+  width: 15rem;
   height: 3rem;
   border-radius: 1rem;
   display: flex;
@@ -118,6 +114,5 @@ import FeedHeader from '@/components/FeedHeader.vue';
   cursor: pointer;
   padding-left: 1rem;
   gap: 10px;
-
 }
 </style>
