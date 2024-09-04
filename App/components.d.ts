@@ -11,11 +11,13 @@ declare module 'vue' {
     CardPublication: typeof import('./src/components/CardPublication.vue')['default']
     FeedHeader: typeof import('./src/components/FeedHeader.vue')['default']
     FileUpload: typeof import('primevue/fileupload')['default']
+    Galleria: typeof import('primevue/galleria')['default']
     Image: typeof import('primevue/image')['default']
     InputText: typeof import('primevue/inputtext')['default']
     ProgressBar: typeof import('primevue/progressbar')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Skeleton: typeof import('primevue/skeleton')['default']
     Textarea: typeof import('primevue/textarea')['default']
   }
 }

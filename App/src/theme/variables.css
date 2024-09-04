@@ -46,10 +46,46 @@ http://ionicframework.com/docs/theming/ */
 
 
 }
-.p-textarea:focus{
+
+.p-textarea:focus {
   border: #D94509 1px solid !important;
 }
 
 .p-button {
   border: none !important;
+}
+
+.p-galleria-indicator-list {
+  height: 10% !important;
+  align-items: center !important;
+}
+
+.p-galleria-next-button {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.p-galleria-next-icon,
+.p-galleria-prev-icon {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+.p-galleria-prev-button {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.p-galleria-indicator-button {
+  width: 0.7rem !important;
+  height: 0.7rem !important;
+}
+
+.ion-color-orange {
+  --ion-color-base: var(--ion-color-orange);
+  --ion-color-base-rgb: var(--ion-color-orange-rgb);
+  --ion-color-contrast: var(--ion-color-orange-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-orange-contrast-rgb);
+  --ion-color-shade: var(--ion-color-orange-shade);
+  --ion-color-tint: var(--ion-color-orange-tint);
 }

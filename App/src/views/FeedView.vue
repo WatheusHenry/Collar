@@ -1,16 +1,30 @@
 <template>
   <ion-page>
     <FeedHeader />
+
     <ion-content :fullscreen="true">
       <ion-refresher slot="fixed" @ionRefresh="handleRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-      <span class="locale">
+      <span v-if="loading == true" class="locale">
         <p>Marília-SP</p><img class="icon" src="../theme/assets/icons/PinIcon.svg" alt="">
       </span>
-      <div class="publications" v-for="(pub, index) in feedObjs">
+      <div v-if="loading == true" class="publications" v-for="(pub, index) in feedObjs">
         <CardPublication class="" :feed-obj="pub" />
       </div>
+      <div v-if="loading == false" class="skeleton" style="width: 85vw;margin: auto;">
+        <div v-for="i in 2" style="display: flex; justify-content: center;margin-top: 2rem;flex-direction: column;align-items: start;">
+          <Skeleton width="85vw" height="30vh"></Skeleton>
+          <Skeleton width="16rem" style="margin-top: 1rem;" class="mb-2"></Skeleton>
+          <Skeleton width="15rem" style="margin-top: 0.5rem;"></Skeleton>
+          <div style="display: flex; gap: 1rem;">
+            <Skeleton width="5rem" height="1.5rem" style="margin-top: 0.5rem;"></Skeleton>
+            <Skeleton width="5rem" height="1.5rem" style="margin-top: 0.5rem;"></Skeleton>
+          </div>
+        </div>
+
+      </div>
+
     </ion-content>
   </ion-page>
 </template>
@@ -46,11 +60,22 @@
 import { IonPage, IonContent, IonRefresher, IonRefresherContent } from '@ionic/vue';
 import FeedHeader from '@/components/FeedHeader.vue';
 import CardPublication from '@/components/CardPublication.vue';
+import { onMounted, ref } from 'vue';
+
+const loading = ref(false)
+
+onMounted(() => {
+  setTimeout(() => {
+    loading.value = true
+  }, 2000);
+})
+
 
 const handleRefresh = (event: CustomEvent) => {
   setTimeout(() => {
     const refresher = event.target as HTMLIonRefresherElement;
     refresher.complete();
+    window.location.reload()
   }, 2000);
 };
 

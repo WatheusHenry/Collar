@@ -1,17 +1,20 @@
 <template>
-  <section class="card" @click="openDetails">
-    <img class="images" src="../theme/assets/images/Cachorro.png" alt="">
-    <span class="imageIcon"> <img class="icon" src="../theme/assets/icons/ImagesIcon.svg" alt="">
-      <p class="imageNumber">{{ imageNumber }}</p>
-    </span>
-    <div class="texts">
-      <h1 class="userName">{{ props.feedObj.username }}</h1>
-      <h2 class="animalDescription">{{ props.feedObj.animalStatus }}</h2>
-      <p class="description">{{ props.feedObj.description }}</p>
+  <section class="card">
+    <div @click="openDetails">
+      <img class="images" src="../theme/assets/images/Cachorro.png" alt="">
+      <span class="imageIcon"> <img class="icon" src="../theme/assets/icons/ImagesIcon.svg" alt="">
+        <p class="imageNumber">{{ imageNumber }}</p>
+      </span>
+      <div class="texts">
+        <h1 class="userName">{{ props.feedObj.username }}</h1>
+        <h2 class="animalDescription">{{ props.feedObj.animalStatus }}</h2>
+        <p class="description">{{ props.feedObj.description }}</p>
+      </div>
     </div>
     <div class="btns">
-      <button @click="reply()"><img class="icon" src="../theme/assets/icons/ReplyIcon.svg" alt="">Republicar</button>
-      <button @click="save()"><img class="icon" src="../theme/assets/icons/HeartIcon.svg" alt="">Salvar</button>
+      <button @click="reply()"><img class="icon" src="../theme/assets/icons/apoioIcon.svg" alt="">{{ 137 }}</button>
+      <button @click="save()"><img class="icon" style="width: 1.3rem;" src="../theme/assets/icons/HeartIcon.svg"
+          alt="">{{ 0 }}</button>
     </div>
   </section>
 
@@ -123,14 +126,15 @@ const openDetails = () => {
 
   button {
     background: none;
-    font-size: 14px;
+    font-size: 16px;
     color: #5c5c5c;
     display: flex;
     gap: 0.5rem;
+    align-items: center !important;
 
 
     .icon {
-      width: 1rem;
+      width: 1.5rem;
     }
   }
 }

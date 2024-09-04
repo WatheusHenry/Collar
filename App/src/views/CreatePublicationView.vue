@@ -6,17 +6,24 @@
         <p class="header">Nova publicação</p>
         <div style="width: 90vw;display: flex;justify-content: center;flex-direction: column;margin-inline:auto;">
           <p style="color: #696969;font-size: 14px;font-weight: 600;">Imagens</p>
-          <FileUpload mode="basic" url="/api/upload" @select="onFileSelect" customUpload :multiple="true"
+          <FileUpload mode="basic"  @select="onFileSelect" customUpload :multiple="true"
             chooseLabel="Selecionar imagens">
           </FileUpload>
           <div style="display: flex; gap: 0.5rem;margin-top: 1rem;">
             <div v-if="images.length == 0"
               style="height: 7rem;width: 7rem;border: 1px solid #F2F2F2;border-radius: 0.5rem; display: flex;"> <img
                 src="../theme/assets/icons/cameraIcon.svg" alt="" style="margin: auto;" /></div>
+            <div v-if="images.length == 0"
+              style="height: 7rem;width: 7rem;border: 1px solid #F2F2F2;border-radius: 0.5rem; display: flex;"> <img
+                src="../theme/assets/icons/cameraIcon.svg" alt="" style="margin: auto;" /></div>
+            <div v-if="images.length == 0"
+              style="height: 7rem;width: 7rem;border: 1px solid #F2F2F2;border-radius: 0.5rem; display: flex;"> <img
+                src="../theme/assets/icons/cameraIcon.svg" alt="" style="margin: auto;" /></div>
             <div v-if="images.length != 0" class="image-scroll">
 
               <div v-for="(img, index) in images" :key="index" class="image-container">
-                <img :src="img" alt="Image" class="uploaded-image" style="height: 7rem;width:7rem;border-radius: 0.5rem;" />
+                <img :src="img" alt="Image" class="uploaded-image"
+                  style="height: 7rem;width:7rem;border-radius: 0.5rem;" />
                 <button class="remove-button" @click="removeImage(index)">x</button>
               </div>
             </div>

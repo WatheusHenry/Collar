@@ -7,13 +7,19 @@
         <button class="backButton" @click="back()"><img src="../theme/assets/icons/OptionsIcon.svg" alt=""></button>
       </div>
 
-      <section class="cards">
+      <section v-if="loading == true" class="cards">
         <div class="cardPublication">
-          <swiper pagination :modules="[Virtual, Pagination]" :slides-per-view="1" :space-between="2" virtual>
-            <swiper-slide v-for="(slideContent, index) in slides" :key="index" :virtualIndex="index">
-              <p class="images">{{ slideContent }}</p>
-            </swiper-slide>
-          </swiper>
+
+          <Galleria :value="images" :showIndicatorsOnItem="true" :showIndicators="true"
+            :responsiveOptions="responsiveOptions" :numVisible="5" :circular="true" containerStyle="max-width: 640px"
+            :showItemNavigators="true" :showThumbnails="false">
+            <template #item="slotProps">
+              <img :src="slotProps.item.itemImageSrc" :alt="slotProps.item.alt" style="width: 100%; display: block;" />
+            </template>
+            <template #thumbnail="slotProps">
+              <img :src="slotProps.item.thumbnailImageSrc" :alt="slotProps.item.alt" style="display: block;" />
+            </template>
+          </Galleria>
           <div>
 
           </div>
@@ -57,6 +63,22 @@
         </div>
       </section>
 
+      <section v-if="loading == false" class="skeleton" style="width: 85vw;margin: auto;">
+        <div style="display: flex; justify-content: center;margin-top: 2rem;flex-direction: column;align-items: start;">
+          <Skeleton width="85vw" height="35vh"></Skeleton>
+          <Skeleton width="10rem" style="margin-top: 1rem;" class="mb-2"></Skeleton>
+          <Skeleton width="20rem" style="margin-top: 0.5rem;"></Skeleton>
+          <Skeleton width="15rem" style="margin-top: 0.5rem;"></Skeleton>
+        </div>
+
+        <div style="display: flex; justify-content: center;margin-top: 1rem;flex-direction: column;align-items: start;">
+          <Skeleton width="85vw" height="20vh"></Skeleton>
+          <Skeleton width="16rem" style="margin-top: 1rem;" class="mb-2"></Skeleton>
+          <Skeleton width="15rem" style="margin-top: 0.5rem;"></Skeleton>
+          <Skeleton width="20rem" style="margin-top: 0.5rem;"></Skeleton>
+        </div>
+      </section>
+
 
     </ion-content>
   </ion-page>
@@ -64,16 +86,40 @@
 
 <script setup lang="ts">
 import { IonPage, IonContent, IonAvatar } from '@ionic/vue';
-import { inject, onMounted } from 'vue';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { Virtual, Pagination } from 'swiper/modules';
+import { inject, onMounted, ref } from 'vue';
+
 import FeedHeader from '@/components/FeedHeader.vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { PhotoService } from '@/services/PublicationService';
+
+const loading = ref(false)
+
+onMounted(() => {
+  PhotoService.getImages().then((data) => (images.value = data));
+  setTimeout(() => {
+    loading.value = true
+  }, 2000);
+});
 
 
 const router: any = inject('navManager')
 
+const images = ref();
+const responsiveOptions = ref([
+  {
+    breakpoint: '991px',
+    numVisible: 4
+  },
+  {
+    breakpoint: '767px',
+    numVisible: 3
+  },
+  {
+    breakpoint: '575px',
+    numVisible: 1
+  }
+]);
 
 const slides = Array.from({ length: 5 }).map(
   (el, index) => `Slide ${index + 1}`
@@ -108,6 +154,8 @@ const back = () => {
   gap: 1rem;
 
   .cardPublication {
+    display: flex;
+    flex-direction: column;
     border: solid 1px #EBEBEB;
     border-radius: 0.5rem;
   }
@@ -159,12 +207,18 @@ ion-avatar {
 .avatar {
   padding: 1rem;
   display: flex;
+  gap: 1rem;
 
   .avatarInfos {
-    margin: auto;
-    h1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+
+    h1 {
       color: #5c5c5c
     }
+
     p {
       font-size: 12px;
       color: #5c5c5c;
@@ -196,9 +250,10 @@ ion-avatar {
   }
 }
 
-.contactDetails{
+.contactDetails {
   padding-inline: 1rem;
-  p{
+
+  p {
     color: #5c5c5c;
     font-size: 12px;
   }
