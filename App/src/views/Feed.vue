@@ -43,7 +43,7 @@
 </style>
 
 <script setup lang="ts">
-import { IonPage, IonContent } from '@ionic/vue';
+import { IonPage, IonContent, IonRefresherContent } from '@ionic/vue';
 import FeedHeader from '@/components/FeedHeader.vue';
 import CardPublication from '@/components/CardPublication.vue';
 
