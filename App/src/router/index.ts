@@ -14,15 +14,15 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/signin',
-    component:Cadastro
+    component: Cadastro
   },
   {
     path: '/login',
-    component:Login
-   },
+    component: Login
+  },
   {
     path: '/app',
-    component:TabsPage,
+    component: TabsPage,
     children: [
       {
         path: "/app/home",
@@ -37,17 +37,17 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("../views/SearchView.vue"),
       },
       {
-        path: "/app/details/:pubId",
-        component: () => import("../views/PublicationDetailsView.vue"),
-      },
-      {
-        path: "/app/profile",
-        component: () => import("../views/ProfileView.vue"),
+        path: '/app/details/:id',
+        component: () => import('../views/PublicationDetailsView.vue'),
       },
       {
         path: "/app/publication",
         component: () => import("../views/PublicationView.vue"),
       },
+      {
+        path: "/app/profile",
+        component:()=> import("../views/ProfileView.vue")
+      }
 
     ]
   }

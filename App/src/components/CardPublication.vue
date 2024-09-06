@@ -1,7 +1,7 @@
 <template>
   <section class="card">
     <div @click="openDetails">
-      <img class="images" src="../theme/assets/images/Cachorro.png" alt="">
+      <img class="images" :src="images[0]" alt="">
       <span class="imageIcon">
         <img class="icon" src="../theme/assets/icons/ImagesIcon.svg" alt="">
         <p class="imageNumber">{{ imageNumber }}</p>
@@ -14,17 +14,17 @@
     </div>
     <div class="btns">
       <button @click="toggleReply">
-        <img class="icon" :src="replyIcon" alt="">{{ replys }}
+        <img class="icon" :src="replyIcon" style="width: 1.2rem;" alt="">{{ replys }}
       </button>
       <button @click="toggleSave">
-        <img class="icon" style="width: 1.3rem;" :src="saveIcon" alt="">{{ likes }}
+        <img class="icon" style="width: 1.1rem;" :src="saveIcon" alt="">{{ likes }}
       </button>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, inject, computed } from 'vue';
+import { ref, inject, computed, onMounted } from 'vue';
 import apoioIcon from '../theme/assets/icons/apoioIcon.svg';
 import apoioIconActive from '../theme/assets/icons/apoioIconActive.svg';
 import heartIcon from '../theme/assets/icons/HeartIcon.svg';
@@ -35,20 +35,25 @@ const props = defineProps<{
     username: string;
     pubId: number;
     userId: number
-    images: Array<Object>
+    images: any
     animalStatus: string
     description: string
   }
 }>();
+const feedObj = props.feedObj;
+
+onMounted(() => {
+})
 
 // Estados reativos para contadores
 const likes = ref(0);
-const replys = ref(137); 
+const replys = ref(137);
 
 const ionRouter: any = inject('navManager');
 
 const pubId = props.feedObj.pubId
 const imageNumber = ref(props.feedObj.images.length);
+const images = props.feedObj.images;
 
 // Estados reativos para os ícones
 const isReplied = ref(false);
@@ -60,22 +65,22 @@ const saveIcon = computed(() => isSaved.value ? heartIconActive : heartIcon);
 const toggleReply = () => {
   isReplied.value = !isReplied.value;
   replys.value += isReplied.value ? 1 : -1;
-  console.log("reply toggled");
 }
 
 const toggleSave = () => {
   isSaved.value = !isSaved.value;
   likes.value += isSaved.value ? 1 : -1;
-  console.log("save toggled");
 }
 
+
+
 const openDetails = () => {
+  console.log('Navigating with feedObj:', props.feedObj);
   ionRouter.navigate({
     routerDirection: 'none',
-    routerLink: `/app/details/${pubId}`
+    routerLink: `/app/details/${pubId}`,
   });
-  console.log(props.feedObj)
-}
+};
 </script>
 
 <style scoped>
@@ -100,7 +105,7 @@ const openDetails = () => {
   right: 5%;
 
   .icon {
-    width: 4vw;
+    width: 4.5vw;
   }
 
   .imageNumber {
@@ -147,10 +152,10 @@ const openDetails = () => {
 
   button {
     background: none;
-    font-size: 16px;
+    font-size: 14px;
     color: #5c5c5c;
     display: flex;
-    gap: 0.5rem;
+    gap: 0.3rem;
     align-items: center !important;
 
 

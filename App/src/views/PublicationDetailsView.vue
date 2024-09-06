@@ -86,24 +86,22 @@
 
 <script setup lang="ts">
 import { IonPage, IonContent, IonAvatar } from '@ionic/vue';
-import { inject, onMounted, ref } from 'vue';
-
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import FeedHeader from '@/components/FeedHeader.vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { PhotoService } from '@/services/PublicationService';
+import { PublicationService } from '@/services/PublicationService';
 
-const loading = ref(false)
+const route = useRoute();
+const loading = ref(true)
+const routeParam = route.params.id
 
 onMounted(() => {
-  PhotoService.getImages().then((data) => (images.value = data));
-  setTimeout(() => {
-    loading.value = true
-  }, 2000);
+  console.log(routeParam)
+  const pub = PublicationService.getData()
 });
 
-
-const router: any = inject('navManager')
 
 const images = ref();
 const responsiveOptions = ref([
@@ -121,9 +119,8 @@ const responsiveOptions = ref([
   }
 ]);
 
-const slides = Array.from({ length: 5 }).map(
-  (el, index) => `Slide ${index + 1}`
-);
+
+
 
 const back = () => {
   history.back()

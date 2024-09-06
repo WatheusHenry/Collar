@@ -64,14 +64,18 @@ import { IonPage, IonContent, IonRefresher, IonRefresherContent } from '@ionic/v
 import FeedHeader from '@/components/FeedHeader.vue';
 import CardPublication from '@/components/CardPublication.vue';
 import { onMounted, ref } from 'vue';
+import { PublicationService } from '@/services/PublicationService';
 
 const loading = ref(false)
+const feedObjs: any = ref([])
 
 onMounted(() => {
+  feedObjs.value = PublicationService.getImages();
   setTimeout(() => {
     loading.value = true
   }, 2000);
 })
+
 
 
 const handleRefresh = (event: CustomEvent) => {
@@ -82,28 +86,5 @@ const handleRefresh = (event: CustomEvent) => {
   }, 2000);
 };
 
-const feedObjs = [
-  {
-    userId: 1,
-    pubId: 1,
-    images: [3, 2, 1],
-    username: "Jorginho",
-    animalStatus: "Animal desaparecido",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent viverra leo et odio hendrerit, id tempor tortor faucibus.Curabitur gravida at mauris vitae ornare...",
-  }, {
-    userId: 2,
-    pubId: 2,
-    images: [],
-    username: "Fulano da silva pereira",
-    animalStatus: "Animal desaparecido",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent viverra leo et odio hendrerit, id tempor tortor faucibus.Curabitur gravida at mauris vitae ornare...",
-  }, {
-    userId: 3,
-    pubId: 3,
-    images: [],
-    username: "Fulano da silva pereira",
-    animalStatus: "Animal desaparecido",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent viverra leo et odio hendrerit, id tempor tortor faucibus.Curabitur gravida at mauris vitae ornare...",
-  },
-];
+
 </script>
