@@ -1,52 +1,59 @@
+import axios from "axios";
+
+
+const API_BASE_URL = 'http://localhost:3000'; // Substitua com a URL da sua API
+
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+
 export const PublicationService = {
-  getData() {
-    return [
-      {
+  async createPublication(publicationData: { description: string | Blob; status: string | Blob; userId: string | Blob; }, images: (string | Blob)[]) {
+    const formData = new FormData();
+    formData.append('description', publicationData.description);
+    formData.append('status', publicationData.status);
+    formData.append('userId', publicationData.userId);
 
-        alt: 'Description for Image 1',
-        title: 'Title 1',
-        username: "Fulano da silva",
-        pubId: 3,
-        userId: 1,
-        images: ['https://primefaces.org/cdn/primevue/images/galleria/galleria1.jpg', 'https://primefaces.org/cdn/primevue/images/galleria/galleria1.jpg', 'https://primefaces.org/cdn/primevue/images/galleria/galleria1.jpg'],
-        animalStatus: 'Perdido',
-        description: "Lorem Ipsum dolor asi amet"
-      }, {
-        thumbnailImageSrc: 'https://primefaces.org/cdn/primevue/images/galleria/galleria1s.jpg',
-        alt: 'Description for Image 1',
-        title: 'Title 1',
-        username: "Fulano da silva",
-        pubId: 3,
-        userId: 1,
-        images: ['https://primefaces.org/cdn/primevue/images/galleria/galleria1.jpg'],
-        animalStatus: 'Perdido',
-        description: "Lorem Ipsum dolor asi amet"
-      }, {
+    images.forEach((image: string | Blob, index: any) => {
+      formData.append('images', image);
+    });
 
-        alt: 'Description for Image 1',
-        title: 'Title 1',
-        username: "Fulano da silva",
-        pubId: 3,
-        userId: 1,
-        images: ['https://primefaces.org/cdn/primevue/images/galleria/galleria1.jpg'],
-        animalStatus: 'Perdido',
-        description: "Lorem Ipsum dolor asi amet"
-      }, {
-
-        alt: 'Description for Image 1',
-        title: 'Title 1',
-        username: "Fulano da silva",
-        pubId: 3,
-        userId: 1,
-        images: ['https://primefaces.org/cdn/primevue/images/galleria/galleria1.jpg', 'https://primefaces.org/cdn/primevue/images/galleria/galleria1.jpg'],
-        animalStatus: 'Perdido',
-        description: "Lorem Ipsum dolor asi amet"
-      },
-      // Adicione mais objetos conforme necessário
-    ];
+    try {
+      const response = await apiClient.post('/publications', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao criar publicação:', error);
+      throw error;
+    }
   },
 
-  getImages() {
-    return this.getData(); // Corrigi a função para referenciar o método correto
-  }
+  async getAllPublications() {
+    try {
+      const response = await apiClient.get('/publications');
+      // console.log(response)
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao listar publicações:', error);
+      throw error;
+    }
+  },
+
+  async getPublicationById(id:any) {
+    try {
+      const response = await apiClient.get(`/publications/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao buscar publicação:', error);
+      throw error;
+    }
+  },
+  
 };

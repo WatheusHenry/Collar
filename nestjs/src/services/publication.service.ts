@@ -48,7 +48,6 @@ export class PublicationService {
   async findAll(): Promise<Publication[]> {
     const publications = await this.publicationRepository.find({ relations: ['user'] });
     console.log(publications)
-    // Adicionar URLs das imagens às publicações
     return publications.map(publication => ({
       ...publication,
       images: publication.images.map(imageName =>
@@ -63,7 +62,6 @@ export class PublicationService {
       throw new NotFoundException(`Publication with ID ${id} not found`);
     }
 
-    // Adicionar URLs das imagens à publicação
     return {
       ...publication,
       images: publication.images.map(imageName =>
