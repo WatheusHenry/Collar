@@ -27,32 +27,49 @@ export class PublicationService {
 
     for (const file of files) {
       const fileName = `${Date.now()}-${file.originalname}`;
-      await this.minioService.upload(file, 'publications', fileName); // Chama o serviço de upload do MinIO
+      await this.minioService.upload(file, 'publications', fileName);
       imageNames.push(fileName);
     }
 
-    // Buscar o usuário com base no userId
     const user = await this.userRepository.findOne({ where: { id: publicationDto.userId } });
     if (!user) {
       throw new NotFoundException(`User with ID ${publicationDto.userId} not found`);
     }
 
-    // Crie a publicação no banco de dados com os dados do DTO e os nomes das imagens
     const publication = this.publicationRepository.create({
       ...publicationDto,
       images: imageNames,
-      user,  // Associe o usuário à publicação
+      user,
     });
 
     return this.publicationRepository.save(publication);
   }
 
   async findAll(): Promise<Publication[]> {
-    return this.publicationRepository.find({ relations: ['user'] });
+    const publications = await this.publicationRepository.find({ relations: ['user'] });
+    console.log(publications)
+    // Adicionar URLs das imagens às publicações
+    return publications.map(publication => ({
+      ...publication,
+      images: publication.images.map(imageName =>
+        this.minioService.getFileUrl('publications', imageName)
+      ),
+    }));
   }
 
   async findOne(id: number): Promise<Publication> {
-    return this.publicationRepository.findOne({ where: { id }, relations: ['user'] });
+    const publication = await this.publicationRepository.findOne({ where: { id }, relations: ['user'] });
+    if (!publication) {
+      throw new NotFoundException(`Publication with ID ${id} not found`);
+    }
+
+    // Adicionar URLs das imagens à publicação
+    return {
+      ...publication,
+      images: publication.images.map(imageName =>
+        this.minioService.getFileUrl('publications', imageName)
+      ),
+    };
   }
 
   async remove(id: number): Promise<void> {

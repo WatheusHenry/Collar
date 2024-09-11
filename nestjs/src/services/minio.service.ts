@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as MinIO from 'minio';
-import { streamToBuffer } from 'src/helpers/stream.utils';
 import { Readable } from 'stream';
 
 @Injectable()
@@ -8,6 +7,7 @@ export class MinioService {
 
   private minioClient: MinIO.Client;
   private readonly logger = new Logger(MinioService.name);
+  private readonly baseUrl: string; // URL base para gerar as URLs dos arquivos
 
 
   constructor() {
@@ -18,6 +18,9 @@ export class MinioService {
       accessKey: 'EunJeIWSDpixZFu0Iju2',
       secretKey: 'Ru1Nxol5ytoDmF4n8W4ypKbioOvVLUg0Rm6jYKxu',
     });
+
+    this.baseUrl = 'http://localhost:9000';
+
   }
 
   async createBucket(bucketName: string): Promise<void> {
@@ -54,6 +57,10 @@ export class MinioService {
 
     // Faça upload do arquivo usando putObject
     return this.minioClient.putObject(bucketName, fileName, stream, file.size, metaData);
+  }
+
+  getFileUrl(bucketName: string, fileName: string): string {
+    return `${this.baseUrl}/${bucketName}/${fileName}`;
   }
 
 
