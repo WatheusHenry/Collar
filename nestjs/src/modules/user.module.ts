@@ -11,4 +11,4 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   providers: [UserService,MinioService],
   exports: [MinioService]
 })
-export class UsersModule {}
+export class UserModule {}

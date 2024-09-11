@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { Publication } from './publication.entity';
 
 @Entity()
 export class User {
@@ -18,6 +19,9 @@ export class User {
   @ApiProperty({ example: 'senha123', description: 'Senha do usuário', writeOnly: true })
   @Column({ type: 'varchar', length: 255 })
   password: string;
+
+  @OneToMany(() => Publication, (publication) => publication.user)
+  publications: Publication[]; // Um usuário pode ter várias publicações
 
   @CreateDateColumn()
   createdAt: Date;

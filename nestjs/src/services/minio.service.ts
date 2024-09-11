@@ -1,18 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as MinIO from 'minio';
 import { streamToBuffer } from 'src/helpers/stream.utils';
+import { Readable } from 'stream';
 
 @Injectable()
 export class MinioService {
+
   private minioClient: MinIO.Client;
+  private readonly logger = new Logger(MinioService.name);
+
 
   constructor() {
     this.minioClient = new MinIO.Client({
-      endPoint: process.env.MINIO_ENDPOINT,
-      port: parseInt(process.env.MINIO_PORT),
+      endPoint: 'localhost',
+      port: 9000,
       useSSL: false,
-      accessKey: process.env.MINIO_ACCESS_KEY,
-      secretKey: process.env.MINIO_SECRET_KEY,
+      accessKey: 'EunJeIWSDpixZFu0Iju2',
+      secretKey: 'Ru1Nxol5ytoDmF4n8W4ypKbioOvVLUg0Rm6jYKxu',
     });
   }
 
@@ -31,32 +35,45 @@ export class MinioService {
     }
   }
 
-  async uploadFile(bucketName: string, objectName: string, fileStream: ReadableStream<Uint8Array>): Promise<void> {
-    try {
-      const buffer = await streamToBuffer(fileStream as any);
-      await this.minioClient.putObject(bucketName, objectName, buffer);
-      console.log('File uploaded successfully.');
-    } catch (error) {
-      console.error('Error uploading file:', error);
+
+  async upload(file: Express.Multer.File, bucketName: string, fileName: string) {
+    if (!file || !file.buffer) {
+      throw new Error('File or file buffer is undefined');
     }
+
+    const stream = Readable.from(file.buffer);
+    const metaData = {
+      'Content-Type': file.mimetype,
+    };
+
+    // Verifique se o bucket existe
+    const bucketExists = await this.minioClient.bucketExists(bucketName);
+    if (!bucketExists) {
+      await this.minioClient.makeBucket(bucketName, 'us-east-1');
+    }
+
+    // Faça upload do arquivo usando putObject
+    return this.minioClient.putObject(bucketName, fileName, stream, file.size, metaData);
   }
 
-  async getFile(bucketName: string, objectName: string): Promise<Buffer> {
-    try {
-      const dataStream = await this.minioClient.getObject(bucketName, objectName);
-      return await this.streamToBuffer(dataStream);
-    } catch (error) {
-      console.error('Error getting file:', error);
-      throw error;
-    }
-  }
 
-  private streamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
-    return new Promise((resolve, reject) => {
-      const chunks: Buffer[] = [];
-      stream.on('data', (chunk) => chunks.push(chunk));
-      stream.on('end', () => resolve(Buffer.concat(chunks)));
-      stream.on('error', reject);
-    });
+
+  async getFile(bucketName: string, objectName: string): Promise < Buffer > {
+  try {
+    const dataStream = await this.minioClient.getObject(bucketName, objectName);
+    return await this.streamToBuffer(dataStream);
+  } catch(error) {
+    console.error('Error getting file:', error);
+    throw error;
   }
+}
+
+  private streamToBuffer(stream: NodeJS.ReadableStream): Promise < Buffer > {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    stream.on('data', (chunk) => chunks.push(chunk));
+    stream.on('end', () => resolve(Buffer.concat(chunks)));
+    stream.on('error', reject);
+  });
+}
 }

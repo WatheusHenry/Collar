@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { UsersModule } from './modules/user.module';
+import { UserModule } from './modules/user.module';
 import { AnimalsModule } from './modules/animals.module';
 import { PublicationModule } from './modules/publication.module';
 import { MinioService } from './services/minio.service';
@@ -23,7 +23,7 @@ import { Publication } from './entities/publication.entity';
     entities: [User,Publication],
     synchronize: true,
   } as TypeOrmModuleOptions),
-  UsersModule,
+  UserModule,
   AnimalsModule,
   PublicationModule],
 
