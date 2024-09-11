@@ -69,12 +69,17 @@ import { PublicationService } from '@/services/PublicationService';
 const loading = ref(false)
 const feedObjs: any = ref([])
 
-onMounted(() => {
-  feedObjs.value = PublicationService.getImages();
-  setTimeout(() => {
-    loading.value = true
-  }, 2000);
-})
+onMounted(async () => {
+  try {
+    feedObjs.value = await PublicationService.getAllPublications();
+    console.log(feedObjs.value);
+
+  } catch (error) {
+    console.error('Error fetching publications:', error);
+  } finally {
+    loading.value = true;
+  }
+});
 
 
 

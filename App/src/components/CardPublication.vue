@@ -7,8 +7,8 @@
         <p class="imageNumber">{{ imageNumber }}</p>
       </span>
       <div class="texts">
-        <h1 class="userName">{{ props.feedObj.username }}</h1>
-        <h2 class="animalDescription">{{ props.feedObj.animalStatus }}</h2>
+        <h1 class="userName">{{ props.feedObj.user.name }}</h1>
+        <h2 class="animalDescription">{{ props.feedObj.status }}</h2>
         <p class="description">{{ props.feedObj.description }}</p>
       </div>
     </div>
@@ -32,17 +32,17 @@ import heartIconActive from '../theme/assets/icons/HeartIconActive.svg';
 
 const props = defineProps<{
   feedObj: {
-    username: string;
-    pubId: number;
-    userId: number
+    user: any;
+    id: number;
     images: any
-    animalStatus: string
+    status: string
     description: string
   }
 }>();
 const feedObj = props.feedObj;
 
 onMounted(() => {
+  console.log(feedObj)
 })
 
 // Estados reativos para contadores
@@ -51,7 +51,7 @@ const replys = ref(137);
 
 const ionRouter: any = inject('navManager');
 
-const pubId = props.feedObj.pubId
+const pubId = props.feedObj.id
 const imageNumber = ref(props.feedObj.images.length);
 const images = props.feedObj.images;
 
@@ -75,7 +75,6 @@ const toggleSave = () => {
 
 
 const openDetails = () => {
-  console.log('Navigating with feedObj:', props.feedObj);
   ionRouter.navigate({
     routerDirection: 'none',
     routerLink: `/app/details/${pubId}`,
