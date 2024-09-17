@@ -1,6 +1,10 @@
 <template>
     <ion-page>
       <ion-header>
+        <div class="header-content">
+          <img class="header-icon" src="../theme/assets/icons/arrow-left-line.svg" alt="Back Arrow">
+          <p class="header-text">Suas publicações</p>
+          </div>
       </ion-header>
       <ion-content :fullscreen="true">
         <section @click="openDetails()" class="cardPublication">
@@ -60,6 +64,32 @@
   </script>
   
   <style scoped>
+  ion-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.header-icon {
+  width: 24px; 
+  height: 24px;
+  margin-right: 4rem;
+  text-align: center;
+  margin-left: 1rem;
+  
+}
+
+.header-text {
+  font-size: 16px;
+  color: #696969;
+ 
+}
   ion-header {
     box-shadow: none;
     border-bottom: 1px solid #EBEBEB;
@@ -116,6 +146,9 @@
       font-size: 12px;
       margin: 0;
     }
+  }
+  ion-header[data-v-e55b96f7]{
+    margin-top: auto;
   }
   </style>
   

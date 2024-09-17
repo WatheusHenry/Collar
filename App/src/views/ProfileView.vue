@@ -2,12 +2,10 @@
   <ion-page>
     <div class="container-perfil">
       <div class="perfil">
-        <ion-avatar>
-          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-        </ion-avatar>
+       <img src="../theme/assets/icons/perfil.svg">
       </div>
       <div>
-        <h1 style="text-align: center;">Fulano da Silva</h1>
+        <h1 style="text-align: center;color: #646464;font-size: 25px;">Fulano da Silva</h1>
       </div>
       <div>
         <p style="text-align: center; color: #F17441;">fulanodasilva@gmail.com</p>
@@ -20,13 +18,13 @@
       <div class="container-image">
         <button class="tamanho">
           <img src="../theme/assets/icons/image-line.svg" alt="Ícone" style="width: 25px; height: auto;">
-          Salvos
-          <img src="../theme/assets/icons/seta.svg" alt="Ícone" style="width: 20px; height: auto; margin-left: 5rem;">
+          Publicações
+          <img src="../theme/assets/icons/seta.svg" alt="Ícone" style="width: 20px; height: auto; margin-left: 2.7rem;">
         </button>
         <button class="tamanho">
           <img src="../theme/assets/icons/like.svg" alt="Ícone" style="width: 25px; height: auto;">
           Salvos
-          <img src="../theme/assets/icons/seta.svg" alt="Ícone" style="width: 20px; height: auto; margin-left: 5rem;">
+          <img src="../theme/assets/icons/seta.svg" alt="Ícone" style="width: 20px; height: auto; margin-left: 5.2rem;">
         </button>
       </div>
       
@@ -50,6 +48,7 @@ import FeedHeader from '@/components/FeedHeader.vue';
 
 
 <style>
+
 .container-perfil {
   display: flex;
   flex-direction: column;
@@ -67,19 +66,21 @@ import FeedHeader from '@/components/FeedHeader.vue';
   color: #D94509;
   background-color: #FFB78E;
   width: 7rem;
-  height: 3rem;
+  height: 2.4rem;
   border-radius: 2rem;
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
   padding-left: 1rem;
+  text-align: center;
+  
 }
 
 .tamanho {
   color: #696969;
   background-color: #F3F3F3;
-  width: 15rem;
+  width: 16rem;
   height: 3rem;
   border-radius: 1rem;
   display: flex;
@@ -99,7 +100,7 @@ import FeedHeader from '@/components/FeedHeader.vue';
 
 
 .exit {
-  margin-top: 11rem;
+  margin-top: 12rem;
 }
 
 .exit-ajuste {
@@ -113,6 +114,8 @@ import FeedHeader from '@/components/FeedHeader.vue';
   font-size: 16px;
   cursor: pointer;
   padding-left: 1rem;
-  gap: 10px;
+  gap: 0.5rem;
+  margin-top: 5rem;
+  display: flexbox;
 }
 </style>
