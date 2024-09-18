@@ -47,7 +47,11 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/app/profile",
         component:()=> import("../views/ProfileView.vue")
-      }
+      },
+      {
+        path: "/app/savedpublication",
+        component: () => import("../views/SavedPublications.vue"),
+      },
 
     ]
   }
