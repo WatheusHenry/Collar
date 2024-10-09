@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Publication } from './publication.entity';
+import { Like } from './like.entity'; // Importe a entidade Like
 
 @Entity()
 export class User {
@@ -22,6 +23,9 @@ export class User {
 
   @OneToMany(() => Publication, (publication) => publication.user)
   publications: Publication[]; // Um usuário pode ter várias publicações
+
+  @OneToMany(() => Like, (like) => like.user)
+  likes: Like[]; // Um usuário pode ter várias curtidas
 
   @CreateDateColumn()
   createdAt: Date;

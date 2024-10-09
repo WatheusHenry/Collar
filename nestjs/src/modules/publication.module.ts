@@ -6,9 +6,10 @@ import { Publication } from 'src/entities/publication.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { MulterModule } from '@nestjs/platform-express';
+import { Like } from 'src/entities/like.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Publication, User]),
+  imports: [TypeOrmModule.forFeature([Publication, User,Like]),
   MulterModule.register({
     dest: './uploads',
   }),],

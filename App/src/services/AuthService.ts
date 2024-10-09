@@ -1,55 +1,57 @@
-// src/services/authService.ts
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
-const API_URL = 'https://your-api-url.com/api'; // Substitua pela URL real da sua API
+const API_URL = 'http://127.0.0.1:3000/auth/';
 
-interface User {
-  username: string;
-  password: string;
-}
-
-interface AuthResponse {
-  token: string;
-  user: {
-    id: string;
-    username: string;
-  };
-}
-
-export default {
-  async login(user: User): Promise<AuthResponse> {
+class AuthService {
+  async login(email: any, password: any) {
     try {
-      const response = await axios.post<AuthResponse>(`${API_URL}/login`, user);
-      // Salva o token no localStorage ou em outro lugar, se necessário
-      localStorage.setItem('token', response.data.token);
+      const response = await axios.post(API_URL + 'login', {
+        email: email,
+        password: password,
+      });
+
+      if (response.data.access_token) {
+        console.log(response.data);
+        localStorage.setItem('token', response.data.access_token);
+        localStorage.setItem('userId', JSON.stringify(response.data.userId))
+      }
+
       return response.data;
     } catch (error) {
-      throw new Error('Falha no login. Verifique suas credenciais.');
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          console.error('Erro no login:', error.response.data);
+          if (error.response.status === 401) {
+            throw new Error('Credenciais inválidas. Por favor, tente novamente.');
+          } else if (error.response.status === 500) {
+            throw new Error('Erro no servidor. Tente mais tarde.');
+          } else {
+            throw new Error('Erro ao realizar login. Status: ' + error.response.status);
+          }
+        } else if (error.request) {
+          console.error('Nenhuma resposta recebida:', error.request);
+          throw new Error('Nenhuma resposta do servidor. Verifique sua conexão.');
+        } else {
+          console.error('Erro ao configurar a requisição:', error.message);
+          throw new Error('Erro ao realizar login: ' + error.message);
+        }
+      } else {
+        throw new Error('Ocorreu um erro inesperado.');
+      }
     }
-  },
-
-  async register(user: User): Promise<AuthResponse> {
-    try {
-      const response = await axios.post<AuthResponse>(`${API_URL}/register`, user);
-      // Salva o token no localStorage ou em outro lugar, se necessário
-      localStorage.setItem('token', response.data.token);
-      return response.data;
-    } catch (error) {
-      throw new Error('Falha no registro. Verifique suas informações.');
-    }
-  },
-
-  logout(): void {
-    // Remove o token ao fazer logout
-    localStorage.removeItem('token');
-  },
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  },
-
-  isAuthenticated(): boolean {
-    // Verifica se o usuário está autenticado
-    return !!this.getToken();
   }
-};
+
+  logout() {
+    localStorage.removeItem('user');
+  }
+
+  register(user: { email: any; password: any; }) {
+    return axios.post(API_URL + 'register', {
+      email: user.email,
+      password: user.password,
+    });
+  }
+}
+
+
+export default new AuthService();

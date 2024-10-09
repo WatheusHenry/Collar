@@ -27,22 +27,36 @@
           <img src="../theme/assets/icons/seta.svg" alt="Ícone" style="width: 20px; height: auto; margin-left: 5.2rem;">
         </button>
       </div>
-      
+
       <div class="exit">
-        <button class="exit-ajuste">
-      <img src="../theme/assets/icons/exit.svg" alt="Ícone" style="width: 25px; height: auto;">
-      Sair
-    </button>
-  </div>
-  
-</div>
-</ion-page>
+        <button class="exit-ajuste" @click="handleLogout()">
+          <img src="../theme/assets/icons/exit.svg" alt="Ícone" style="width: 25px; height: auto;">
+          Sair
+        </button>
+      </div>
+
+    </div>
+  </ion-page>
 
 </template>
 
 <script setup lang="ts">
-import { IonIcon, IonButton, IonAvatar,IonPage } from '@ionic/vue';
-import FeedHeader from '@/components/FeedHeader.vue';
+import { IonAvatar, IonPage } from '@ionic/vue';
+import { useRouter } from 'vue-router';
+import AuthService from '@/services/AuthService';
+
+const router = useRouter();
+
+
+const handleLogout = async () => {
+  try {
+    AuthService.logout();
+    router.push('/login');
+  } catch (error) {
+    console.error('Erro ao fazer logout:', error);
+  }
+}
+
 </script>
 
 

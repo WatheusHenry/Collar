@@ -1,6 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as MinIO from 'minio';
 import { Readable } from 'stream';
+import * as fs from 'fs'; // Para lidar com arquivos no disco
+
 
 @Injectable()
 export class MinioService {
@@ -12,14 +14,14 @@ export class MinioService {
 
   constructor() {
     this.minioClient = new MinIO.Client({
-      endPoint: 'localhost',
+      endPoint: '20.206.249.227',
       port: 9000,
       useSSL: false,
-      accessKey: 'EunJeIWSDpixZFu0Iju2',
-      secretKey: 'Ru1Nxol5ytoDmF4n8W4ypKbioOvVLUg0Rm6jYKxu',
+      accessKey: 'Nr4i3r5e6r6rZcMbyfX6',
+      secretKey: 'sSm2R2YEsWFoxQr839AhhJW1STWUyz6yOk7Z9zHc',
     });
 
-    this.baseUrl = 'http://localhost:9000';
+    this.baseUrl = 'http://20.206.249.227:9000';
 
   }
 
@@ -40,22 +42,30 @@ export class MinioService {
 
 
   async upload(file: Express.Multer.File, bucketName: string, fileName: string) {
-    if (!file || !file.buffer) {
-      throw new Error('File or file buffer is undefined');
+    if (!file) {
+      throw new Error('File is undefined');
     }
 
-    const stream = Readable.from(file.buffer);
+
+    let stream: Readable;
+    if (file.buffer) {
+      stream = Readable.from(file.buffer);
+    } else if (file.path) {
+      stream = fs.createReadStream(file.path);
+    } else {
+      throw new Error('File or file path is undefined');
+    }
+
     const metaData = {
       'Content-Type': file.mimetype,
     };
 
-    // Verifique se o bucket existe
     const bucketExists = await this.minioClient.bucketExists(bucketName);
     if (!bucketExists) {
       await this.minioClient.makeBucket(bucketName, 'us-east-1');
     }
 
-    // Faça upload do arquivo usando putObject
+    // Upload do arquivo
     return this.minioClient.putObject(bucketName, fileName, stream, file.size, metaData);
   }
 

@@ -1,6 +1,6 @@
 // src/users/user.controller.ts
 import { Controller, Post, Get, Param, Body, Patch, Delete } from '@nestjs/common';
-import { UserService } from 'src/services/users.service';
+import { UserService } from 'src/services/user.service';
 import { User } from '../entities/user.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/dto/create-user.dto';

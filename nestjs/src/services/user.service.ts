@@ -19,7 +19,7 @@ export class UserService {
   async create(createUserDto: CreateUserDto): Promise<User> {
 
     const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(createUserDto.password, salt); 
+    const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
 
     const user = this.userRepository.create({
       ...createUserDto,
@@ -31,6 +31,14 @@ export class UserService {
 
   async findAll(): Promise<User[]> {
     return this.userRepository.find();
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 
   async findOne(id: number): Promise<User> {

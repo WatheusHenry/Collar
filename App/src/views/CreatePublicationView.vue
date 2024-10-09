@@ -1,63 +1,55 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-      <section style="display: flex;flex-direction: column;height: 90vh;">
-
+      <section style="display: flex; flex-direction: column; height: 90vh;">
         <p class="header">Nova publicação</p>
-        <div style="width: 90vw;display: flex;justify-content: center;flex-direction: column;margin-inline:auto;">
-          <p style="color: #696969;font-size: 14px;font-weight: 600;">Imagens</p>
-          <FileUpload mode="basic"  @select="onFileSelect" customUpload :multiple="true"
-            chooseLabel="Selecionar imagens">
-          </FileUpload>
-          <div style="display: flex; gap: 0.5rem;margin-top: 1rem;">
-            <div v-if="images.length == 0"
-              style="height: 7rem;width: 7rem;border: 1px solid #F2F2F2;border-radius: 0.5rem; display: flex;"> <img
-                src="../theme/assets/icons/cameraIcon.svg" alt="" style="margin: auto;" /></div>
-            <div v-if="images.length == 0"
-              style="height: 7rem;width: 7rem;border: 1px solid #F2F2F2;border-radius: 0.5rem; display: flex;"> <img
-                src="../theme/assets/icons/cameraIcon.svg" alt="" style="margin: auto;" /></div>
-            <div v-if="images.length == 0"
-              style="height: 7rem;width: 7rem;border: 1px solid #F2F2F2;border-radius: 0.5rem; display: flex;"> <img
-                src="../theme/assets/icons/cameraIcon.svg" alt="" style="margin: auto;" /></div>
-            <div v-if="images.length != 0" class="image-scroll">
-
+        <div style="width: 90vw; display: flex; justify-content: center; flex-direction: column; margin-inline: auto;">
+          <p style="color: #696969; font-size: 14px; font-weight: 600;">Imagens</p>
+          <FileUpload mode="basic" @select="onFileSelect" customUpload :multiple="true"
+            chooseLabel="Selecionar imagens" />
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+            <div v-if="images.length === 0"
+              style="height: 7rem; width: 7rem; border: 1px solid #F2F2F2; border-radius: 0.5rem; display: flex;">
+              <img src="../theme/assets/icons/cameraIcon.svg" alt="" style="margin: auto;" />
+            </div>
+            <div v-if="images.length > 0" class="image-scroll">
               <div v-for="(img, index) in images" :key="index" class="image-container">
                 <img :src="img" alt="Image" class="uploaded-image"
-                  style="height: 7rem;width:7rem;border-radius: 0.5rem;" />
+                  style="height: 7rem; width: 7rem; border-radius: 0.5rem;" />
                 <button class="remove-button" @click="removeImage(index)">x</button>
               </div>
             </div>
           </div>
         </div>
-        <div style="width: 90vw;display: flex;justify-content: center;flex-direction: column;margin-inline:auto;">
-          <p style="color: #696969;font-size: 14px;font-weight: 600;">Detalhes</p>
+        <div style="width: 90vw; display: flex; justify-content: center; flex-direction: column; margin-inline: auto;">
+          <p style="color: #696969; font-size: 14px; font-weight: 600;">Detalhes</p>
           <Textarea
             placeholder="Informe os detalhes do desaparecimento do animal. Ex: Local, ultima vez visto, detalhes do animal"
             v-model="details" rows="8" cols="30" />
-
         </div>
-        <div style="width: 90vw;display: flex;justify-content: center;flex-direction: column;margin-inline:auto;">
-          <p style="color: #696969;font-size: 14px;font-weight: 600;">Informações para contato</p>
+        <div style="width: 90vw; display: flex; justify-content: center; flex-direction: column; margin-inline: auto;">
+          <p style="color: #696969; font-size: 14px; font-weight: 600;">Informações para contato</p>
           <Textarea placeholder="Informe aqui as opções de contato caso o animal tenha sido encontrado" v-model="infos"
             rows="8" cols="30" />
-
         </div>
-        <div style="display: flex;justify-content: center;width: 100vw;margin: auto;">
-          <Button class="pubButton">Publicar</Button>
+        <div style="display: flex; justify-content: center; width: 100vw; margin: auto;">
+          <Button class="pubButton" @click="submitPublication">Publicar</Button>
         </div>
       </section>
     </ion-content>
   </ion-page>
 </template>
 
+
 <script setup lang="ts">
-import { IonPage, IonContent } from '@ionic/vue';
+
 import { ref } from 'vue';
+import { PublicationService } from '@/services/PublicationService';
+import { IonContent,IonPage } from '@ionic/vue';
 
-const images: any = ref([])
-const details: any = ref(null)
-const infos: any = ref(null)
-
+const images = ref<string[]>([]);
+const details = ref<string | null>(null);
+const infos = ref<string | null>(null);
 
 function onFileSelect(event: { files: File[] }) {
   const files = event.files;
@@ -75,12 +67,22 @@ function removeImage(index: number) {
   images.value.splice(index, 1);
 }
 
-
-const upload = () => {
-  images.value.upload();
-};
-
+async function submitPublication() {
+  try {
+    const publicationData = {
+      description: details.value || '',
+      status: 'active', // Ajuste conforme necessário
+      userId: 'user-id-placeholder', // Substitua com o ID do usuário real
+    };
+    await PublicationService.createPublication(publicationData, images.value);
+    // Redirecione ou mostre uma mensagem de sucesso
+  } catch (error) {
+    console.error('Erro ao criar publicação:', error);
+  }
+}
 </script>
+
+
 
 <style scoped>
 .image-scroll {

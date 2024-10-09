@@ -51,7 +51,7 @@
   </template>
   
   <script setup lang="ts">
-  import { IonPage, IonHeader, IonToolbar, IonContent, IonAvatar, IonSearchbar } from '@ionic/vue';
+  import { IonPage, IonHeader, IonContent, IonAvatar } from '@ionic/vue';
   import { inject } from 'vue';
   const ionRouter: any = inject('navManager');
   

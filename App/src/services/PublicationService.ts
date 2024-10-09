@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const API_BASE_URL = 'http://localhost:3000'; // Substitua com a URL da sua API
+const API_BASE_URL = 'http://localhost:3000';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -9,6 +9,12 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+function getToken() {
+  const token = localStorage.getItem('token');
+  console.log('Token JWT:', token); // Verifique o token no console
+  return token || '';
+}
 
 
 export const PublicationService = {
@@ -23,9 +29,12 @@ export const PublicationService = {
     });
 
     try {
+      const token = getToken(); // Obtendo o token JWT
+      console.log(token)
       const response = await apiClient.post('/publications', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`, // Adicionando o token ao cabeçalho
         },
       });
       return response.data;
@@ -46,7 +55,7 @@ export const PublicationService = {
     }
   },
 
-  async getPublicationById(id:any) {
+  async getPublicationById(id: any) {
     try {
       const response = await apiClient.get(`/publications/${id}`);
       return response.data;
@@ -55,5 +64,5 @@ export const PublicationService = {
       throw error;
     }
   },
-  
+
 };
