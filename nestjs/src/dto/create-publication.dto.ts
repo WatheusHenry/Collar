@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsArray, IsNumber, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export class CreatePublicationDto {
   @ApiProperty({ example: 'Animal perdido na rua XYZ.' })
@@ -12,9 +12,13 @@ export class CreatePublicationDto {
   @IsString()
   status: string;
 
-
   @ApiProperty({ example: 1 })
   @IsNotEmpty()
   @IsNumber()
-  userId: number;  // ID do usuário que cria a publicação
+  userId: number;
+
+  @ApiProperty({ example: 'Marília' })
+  @IsNotEmpty()
+  @IsString()
+  location: string;
 }
