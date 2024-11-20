@@ -10,6 +10,7 @@ import {
 import { LikeService } from '../services/like.service';
 import { CreateLikeDto } from '../dto/create-like.dto';
 import { UpdateLikeDto } from '../dto/update-like.dto';
+import { Publication } from 'src/entities/publication.entity';
 
 @Controller('like')
 export class LikeController {
@@ -23,6 +24,13 @@ export class LikeController {
   @Get()
   findAll() {
     return this.likeService.findAll();
+  }
+
+  @Get('user/:userId/publications')
+  async getLikedPublications(
+    @Param('userId') userId: string,
+  ): Promise<Publication[]> {
+    return this.likeService.findLikedPublicationsByUser(+userId);
   }
 
   @Get(':id')
