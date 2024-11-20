@@ -19,9 +19,6 @@ export interface PublicationWithLikes {
   images: string[]; // URLs das imagens
 }
 
-
-
-
 @Injectable()
 export class PublicationService {
   constructor(
@@ -35,11 +32,13 @@ export class PublicationService {
 
     @InjectRepository(Like)
     private likeRepository: Repository<Like>,
-  ) { }
+  ) {}
 
-  async create(files: Array<Express.Multer.File>, publicationDto: CreatePublicationDto) {
-
-    if (!files || files.length === 0) {
+  async create(
+    files: Express.Multer.File[],
+    publicationDto: CreatePublicationDto,
+  ) {
+    if (!files) {
       throw new Error('No files uploaded');
     }
     const imageNames = [];
@@ -48,12 +47,15 @@ export class PublicationService {
       const fileName = `${Date.now()}-${file.originalname}`;
       await this.minioService.upload(file, 'publications', fileName);
       imageNames.push(fileName);
-
     }
 
-    const user = await this.userRepository.findOne({ where: { id: publicationDto.userId } });
+    const user = await this.userRepository.findOne({
+      where: { id: publicationDto.userId },
+    });
     if (!user) {
-      throw new NotFoundException(`User with ID ${publicationDto.userId} not found`);
+      throw new NotFoundException(
+        `User with ID ${publicationDto.userId} not found`,
+      );
     }
 
     const publication = this.publicationRepository.create({
@@ -66,36 +68,57 @@ export class PublicationService {
   }
 
   async findAll(): Promise<PublicationWithLikes[]> {
-    const publications = await this.publicationRepository.find({ relations: ['user'] });
+    const publications = await this.publicationRepository.find({
+      relations: ['user'],
+    });
 
-    return Promise.all(publications.map(async (publication) => {
-      const likeCount = await this.likeRepository.count({ where: { publication: { id: publication.id } } });
-      const likes = await this.likeRepository.find({ where: { publication: { id: publication.id } }, relations: ['user'] });
+    return Promise.all(
+      publications.map(async (publication) => {
+        const likeCount = await this.likeRepository.count({
+          where: { publication: { id: publication.id } },
+        });
+        const likes = await this.likeRepository.find({
+          where: { publication: { id: publication.id } },
+          relations: ['user'],
+        });
 
-      return {
-        ...publication,
-        likeCount,
-        likes: likes.map(like => like.user.id),
-        images: publication.images.map(imageName => this.minioService.getFileUrl('publications', imageName)),
-      };
-    }));
+        return {
+          ...publication,
+          likeCount,
+          likes: likes.map((like) => like.user.id),
+          images: publication.images.map((imageName) =>
+            this.minioService.getFileUrl('publications', imageName),
+          ),
+        };
+      }),
+    );
   }
 
   async findOne(id: number): Promise<PublicationWithLikes> {
-    const publication = await this.publicationRepository.findOne({ where: { id }, relations: ['user'] });
+    const publication = await this.publicationRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
 
     if (!publication) {
       throw new NotFoundException(`Publication with ID ${id} not found`);
     }
 
-    const likeCount = await this.likeRepository.count({ where: { publication: { id } } });
-    const likes = await this.likeRepository.find({ where: { publication: { id } }, relations: ['user'] });
+    const likeCount = await this.likeRepository.count({
+      where: { publication: { id } },
+    });
+    const likes = await this.likeRepository.find({
+      where: { publication: { id } },
+      relations: ['user'],
+    });
 
     return {
       ...publication,
       likeCount,
-      likes: likes.map(like => like.user.id),
-      images: publication.images.map(imageName => this.minioService.getFileUrl('publications', imageName)),
+      likes: likes.map((like) => like.user.id),
+      images: publication.images.map((imageName) =>
+        this.minioService.getFileUrl('publications', imageName),
+      ),
     };
   }
 
@@ -106,23 +129,37 @@ export class PublicationService {
     });
 
     if (!publications || publications.length === 0) {
-      throw new NotFoundException(`No publications found for user ID ${userId}`);
+      throw new NotFoundException(
+        `No publications found for user ID ${userId}`,
+      );
     }
 
-    return Promise.all(publications.map(async (publication) => {
-      const likeCount = await this.likeRepository.count({ where: { publication: { id: publication.id } } });
-      const likes = await this.likeRepository.find({ where: { publication: { id: publication.id } }, relations: ['user'] });
+    return Promise.all(
+      publications.map(async (publication) => {
+        const likeCount = await this.likeRepository.count({
+          where: { publication: { id: publication.id } },
+        });
+        const likes = await this.likeRepository.find({
+          where: { publication: { id: publication.id } },
+          relations: ['user'],
+        });
 
-      return {
-        ...publication,
-        likeCount,
-        likes: likes.map(like => like.user.id),
-        images: publication.images.map(imageName => this.minioService.getFileUrl('publications', imageName)),
-      };
-    }));
+        return {
+          ...publication,
+          likeCount,
+          likes: likes.map((like) => like.user.id),
+          images: publication.images.map((imageName) =>
+            this.minioService.getFileUrl('publications', imageName),
+          ),
+        };
+      }),
+    );
   }
 
-  async checkIfUserLiked(publicationId: number, userId: number): Promise<{ liked: boolean }> {
+  async checkIfUserLiked(
+    publicationId: number,
+    userId: number,
+  ): Promise<{ liked: boolean }> {
     const like = await this.likeRepository.findOne({
       where: { publication: { id: publicationId }, user: { id: userId } },
     });
@@ -139,32 +176,49 @@ export class PublicationService {
       .orWhere('user.username ILIKE :query', { query: `%${query}%` })
       .getMany();
 
-    return Promise.all(publications.map(async (publication) => {
-      const likeCount = await this.likeRepository.count({ where: { publication: { id: publication.id } } });
-      const likes = await this.likeRepository.find({ where: { publication: { id: publication.id } }, relations: ['user'] });
+    return Promise.all(
+      publications.map(async (publication) => {
+        const likeCount = await this.likeRepository.count({
+          where: { publication: { id: publication.id } },
+        });
+        const likes = await this.likeRepository.find({
+          where: { publication: { id: publication.id } },
+          relations: ['user'],
+        });
 
-      return {
-        ...publication,
-        likeCount,
-        likes: likes.map(like => like.user.id),
-        images: publication.images.map(imageName => this.minioService.getFileUrl('publications', imageName)),
-      };
-    }));
+        return {
+          ...publication,
+          likeCount,
+          likes: likes.map((like) => like.user.id),
+          images: publication.images.map((imageName) =>
+            this.minioService.getFileUrl('publications', imageName),
+          ),
+        };
+      }),
+    );
   }
-
 
   async remove(id: number): Promise<void> {
     await this.publicationRepository.delete(id);
   }
 
-  async likePublication(publicationId: number, userId: number): Promise<PublicationWithLikes> {
-    console.log(`Trying to like publication ${publicationId} for user ${userId}`);
+  async likePublication(
+    publicationId: number,
+    userId: number,
+  ): Promise<PublicationWithLikes> {
+    console.log(
+      `Trying to like publication ${publicationId} for user ${userId}`,
+    );
 
-    const publication = await this.publicationRepository.findOne({ where: { id: publicationId } });
+    const publication = await this.publicationRepository.findOne({
+      where: { id: publicationId },
+    });
 
     if (!publication) {
       console.log(`Publication not found`);
-      throw new NotFoundException(`Publication with ID ${publicationId} not found`);
+      throw new NotFoundException(
+        `Publication with ID ${publicationId} not found`,
+      );
     }
 
     const existingLike = await this.likeRepository.findOne({
@@ -176,7 +230,10 @@ export class PublicationService {
       await this.likeRepository.remove(existingLike);
     } else {
       console.log(`Adding new like`);
-      const like = this.likeRepository.create({ publication, user: { id: userId } });
+      const like = this.likeRepository.create({
+        publication,
+        user: { id: userId },
+      });
       await this.likeRepository.save(like);
     }
 

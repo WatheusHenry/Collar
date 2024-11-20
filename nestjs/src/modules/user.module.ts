@@ -4,11 +4,17 @@ import { UserController } from '../controllers/user.controller';
 import { MinioService } from 'src/services/minio.service';
 import { User } from 'src/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])], // Importa o UserRepository
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    MulterModule.register({
+      dest: './uploads', // Pasta temporária para armazenar arquivos
+    }),
+  ], // Importa o UserRepository
   controllers: [UserController],
-  providers: [UserService,MinioService],
-  exports: [MinioService,UserService]
+  providers: [UserService, MinioService],
+  exports: [MinioService, UserService],
 })
 export class UserModule {}

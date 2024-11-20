@@ -7,17 +7,20 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UpdateUserPasswordDto } from 'src/dto/update-user-password.dto';
 import * as bcrypt from 'bcryptjs';
-
+import { MinioService } from './minio.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+    private readonly minioService: MinioService,
+  ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-
+  async create(
+    createUserDto: CreateUserDto,
+    file: Express.Multer.File,
+  ): Promise<User> {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
 
@@ -25,6 +28,17 @@ export class UserService {
       ...createUserDto,
       password: hashedPassword,
     });
+
+    const fileName = `user-${user.id}-${Date.now()}-${file.originalname}`;
+
+    await this.minioService.upload(file, 'publications', fileName);
+
+    const profilePictureUrl = this.minioService.getFileUrl(
+      'publications',
+      fileName,
+    );
+
+    user.profilePicture = profilePictureUrl;
 
     return this.userRepository.save(user);
   }
@@ -55,7 +69,10 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  async updatePassword(id: number, newPassword: UpdateUserPasswordDto): Promise<User> {
+  async updatePassword(
+    id: number,
+    newPassword: UpdateUserPasswordDto,
+  ): Promise<User> {
     const user = await this.findOne(id);
     if (newPassword.password) {
       const salt = await bcrypt.genSalt(10);

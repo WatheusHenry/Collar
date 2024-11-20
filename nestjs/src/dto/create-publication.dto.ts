@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  IsOptional,
+  IsArray,
+} from 'class-validator';
 
 export class CreatePublicationDto {
   @ApiProperty({ example: 'Animal perdido na rua XYZ.' })
@@ -21,4 +27,8 @@ export class CreatePublicationDto {
   @IsNotEmpty()
   @IsString()
   location: string;
+
+  @IsArray()
+  @IsOptional()
+  images: string[];
 }

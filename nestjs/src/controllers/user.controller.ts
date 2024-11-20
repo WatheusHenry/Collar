@@ -1,20 +1,34 @@
 // src/users/user.controller.ts
-import { Controller, Post, Get, Param, Body, Patch, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Param,
+  Body,
+  Patch,
+  Delete,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UserService } from 'src/services/user.service';
 import { User } from '../entities/user.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { UpdateUserDto } from 'src/dto/update-user.dto'; // Novo DTO para atualizar
 import { UpdateUserPasswordDto } from 'src/dto/update-user-password.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Users')
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Post()
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.userService.create(createUserDto);
+  @UseInterceptors(FileInterceptor('profilePicture')) // Nome do campo esperado no upload
+  async createUser(
+    @Body() createUserDto: CreateUserDto,
+    file?: Express.Multer.File,
+  ): Promise<User> {
+    return this.userService.create(createUserDto, file);
   }
 
   @Get()
@@ -29,13 +43,19 @@ export class UserController {
 
   // Função para atualizar os dados do usuário
   @Patch(':id')
-  async updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+  async updateUser(
+    @Param('id') id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<User> {
     return this.userService.update(id, updateUserDto);
   }
 
   // Função para atualizar a senha do usuário
   @Patch(':id/password')
-  async updatePassword(@Param('id') id: number, @Body() updateUserPassword: UpdateUserPasswordDto): Promise<User> {
+  async updatePassword(
+    @Param('id') id: number,
+    @Body() updateUserPassword: UpdateUserPasswordDto,
+  ): Promise<User> {
     return this.userService.updatePassword(id, updateUserPassword);
   }
 

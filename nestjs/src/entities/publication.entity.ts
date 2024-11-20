@@ -24,20 +24,19 @@ export class Publication {
   status: string; // Status do animal (perdido, encontrado, etc.)
 
   @ApiProperty({ type: [String], example: ['image1.jpg', 'image2.jpg'] })
-  @Column("simple-array")
+  @Column('simple-array')
   images: string[];
 
-  @ApiProperty({ example: "Marília" })
+  @ApiProperty({ example: 'Marília' })
   @Column({ type: 'text' })
-  location: string
+  location: string;
 
   @ManyToOne(() => User, (user) => user.publications, { eager: true })
   user: User; // Ligação com o usuário que criou a publicação
 
-  @OneToMany(() => Like, like => like.publication)
+  @OneToMany(() => Like, (like) => like.publication)
   likes: Like[];
 
   @CreateDateColumn()
   createdAt: Date; // Data de criação da publicação
-
 }

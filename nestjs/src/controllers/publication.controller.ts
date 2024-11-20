@@ -17,6 +17,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { CreatePublicationDto } from 'src/dto/create-publication.dto';
 import { PublicationWithLikes } from '../services/publication.service'; // ajuste o caminho conforme necessário
+// import { diskStorage, memoryStorage } from 'multer';
 
 @ApiTags('Publications')
 @Controller('publications')
@@ -24,12 +25,11 @@ export class PublicationController {
   constructor(private readonly publicationService: PublicationService) {}
 
   @Post()
-  @UseInterceptors(FilesInterceptor('images[]', 4))
+  @UseInterceptors(FilesInterceptor('images', 4)) // O campo 'images' será onde esperamos o arquivo
   create(
-    @UploadedFiles() files: Array<Express.Multer.File>,
+    @UploadedFiles() files: Express.Multer.File[],
     @Body() publicationDto: CreatePublicationDto,
   ) {
-    console.log(publicationDto);
     return this.publicationService.create(files, publicationDto);
   }
 
