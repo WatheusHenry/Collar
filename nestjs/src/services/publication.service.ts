@@ -177,7 +177,6 @@ export class PublicationService {
       .orWhere('LOWER(user.name) LIKE LOWER(:query)', { query: `%${query}%` })
       .getMany();
   
-    console.log("Generated query:", publications); // Verifique a consulta gerada
   
     return this.mapPublicationsWithLikes(publications);
   }
