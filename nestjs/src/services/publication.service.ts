@@ -226,7 +226,6 @@ export class PublicationService {
     });
 
     if (!publication) {
-      console.log(`Publication not found`);
       throw new NotFoundException(
         `Publication with ID ${publicationId} not found`,
       );
@@ -237,10 +236,8 @@ export class PublicationService {
     });
 
     if (existingLike) {
-      console.log(`Removing existing like`);
       await this.likeRepository.remove(existingLike);
     } else {
-      console.log(`Adding new like`);
       const like = this.likeRepository.create({
         publication,
         user: { id: userId },
@@ -248,7 +245,6 @@ export class PublicationService {
       await this.likeRepository.save(like);
     }
 
-    console.log(`Successfully liked/unliked publication`);
     return this.findOne(publicationId); // Retorna a publicação atualizada
   }
 }
