@@ -167,25 +167,37 @@ export class PublicationService {
     return { liked: !!like };
   }
 
-  async searchPublications(query: string): Promise<PublicationWithLikes[]> {
+  async searchPublications(query: string) {
+  
     const publications = await this.publicationRepository
       .createQueryBuilder('publication')
       .leftJoinAndSelect('publication.user', 'user')
-      .where('publication.description ILIKE :query', { query: `%${query}%` })
-      .orWhere('publication.location ILIKE :query', { query: `%${query}%` })
-      .orWhere('user.username ILIKE :query', { query: `%${query}%` })
+      .where('LOWER(publication.description) LIKE LOWER(:query)', { query: `%${query}%` })
+      .orWhere('LOWER(publication.location) LIKE LOWER(:query)', { query: `%${query}%` })
+      .orWhere('LOWER(user.name) LIKE LOWER(:query)', { query: `%${query}%` })
       .getMany();
+  
+    console.log("Generated query:", publications); // Verifique a consulta gerada
+  
+    return this.mapPublicationsWithLikes(publications);
+  }
+  
+  
 
+  private async mapPublicationsWithLikes(
+    publications: Publication[],
+  ): Promise<PublicationWithLikes[]> {
     return Promise.all(
       publications.map(async (publication) => {
         const likeCount = await this.likeRepository.count({
           where: { publication: { id: publication.id } },
         });
+  
         const likes = await this.likeRepository.find({
           where: { publication: { id: publication.id } },
           relations: ['user'],
         });
-
+  
         return {
           ...publication,
           likeCount,

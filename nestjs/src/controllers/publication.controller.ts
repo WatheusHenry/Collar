@@ -82,10 +82,9 @@ export class PublicationController {
     return this.publicationService.checkIfUserLiked(publicationId, userId);
   }
 
-  @Get('/search')
-  async searchPublications(
-    @Query('q') searchQuery: string,
-  ): Promise<PublicationWithLikes[]> {
+  @Post('/search')
+  async searchPublications(@Body() body: { searchQuery: string }) {
+    const searchQuery = body.searchQuery;
     return this.publicationService.searchPublications(searchQuery);
   }
 
