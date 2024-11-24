@@ -19,6 +19,11 @@ export class Publication {
   @Column({ type: 'text' })
   description: string;
 
+
+  @ApiProperty({ example: 'O animal foi perdido na região do centro.' })
+  @Column({ type: 'text' })
+  contactInfos: string;
+
   @ApiProperty({ example: 'perdido' })
   @Column({ type: 'varchar', length: 20 })
   status: string; // Status do animal (perdido, encontrado, etc.)

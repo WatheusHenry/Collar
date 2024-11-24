@@ -23,23 +23,24 @@ export class UserService {
   ): Promise<User> {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
-
-    const user = this.userRepository.create({
+  
+    let user = this.userRepository.create({
       ...createUserDto,
       password: hashedPassword,
     });
-
+  
+    user = await this.userRepository.save(user); 
+  
     const fileName = `user-${user.id}-${Date.now()}-${file.originalname}`;
-
     await this.minioService.upload(file, 'publications', fileName);
-
+  
     const profilePictureUrl = this.minioService.getFileUrl(
       'publications',
       fileName,
     );
-
+  
     user.profilePicture = profilePictureUrl;
-
+  
     return this.userRepository.save(user);
   }
 
@@ -63,9 +64,21 @@ export class UserService {
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(
+    id: number,
+    updateUserDto: UpdateUserDto,
+    file?: Express.Multer.File,
+  ): Promise<User> {
     const user = await this.findOne(id);
     Object.assign(user, updateUserDto);
+
+    if (file) {
+      const fileName = `user-${id}-${Date.now()}-${file.originalname}`;
+      await this.minioService.upload(file, 'publications', fileName);
+      const profilePictureUrl = this.minioService.getFileUrl('publications', fileName);
+      user.profilePicture = profilePictureUrl;
+    }
+
     return this.userRepository.save(user);
   }
 

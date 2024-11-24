@@ -18,28 +18,30 @@ import { JwtModule } from '@nestjs/jwt';
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'b53c535d4ad2ee953638faf55be7072d469143dc1f570242ae8737cf5a262b3b', // Coloque uma chave segura aqui
-      signOptions: { expiresIn: '1h' }, // Tempo de expiração do token
+      secret: process.env.JWT_SECRET_KEY,
+      signOptions: { expiresIn: '7d' },
     }),
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: process.env.DB_CONNECTION,
+      driver: require('mysql2'),
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [User, Publication,Like],
+      entities: [User, Publication, Like],
       synchronize: true,
     } as TypeOrmModuleOptions),
     UserModule,
     AnimalsModule,
     PublicationModule,
     AuthModule,
-    LikeModule],
+    LikeModule,
+  ],
 
   controllers: [AppController, AuthController],
   providers: [AppService, MinioService],
-  exports: [MinioService]
+  exports: [MinioService],
 })
-export class AppModule { }
+export class AppModule {}

@@ -8,6 +8,7 @@ import {
   Patch,
   Delete,
   UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UserService } from 'src/services/user.service';
 import { User } from '../entities/user.entity';
@@ -42,12 +43,15 @@ export class UserController {
   }
 
   // Função para atualizar os dados do usuário
-  @Patch(':id')
+  @Post(':id')
+  @UseInterceptors(FileInterceptor('profilePicture'))
   async updateUser(
     @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDto,
+    @UploadedFile() file?: Express.Multer.File,
   ): Promise<User> {
-    return this.userService.update(id, updateUserDto);
+    console.log(updateUserDto)
+    return this.userService.update(id, updateUserDto, file);
   }
 
   // Função para atualizar a senha do usuário

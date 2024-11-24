@@ -8,6 +8,8 @@ export class MinioService {
   private minioClient: MinIO.Client;
   private readonly logger = new Logger(MinioService.name);
   private readonly baseUrl: string;
+  private bucketCache = new Set<string>();
+
 
   constructor() {
     this.minioClient = new MinIO.Client({
@@ -50,6 +52,8 @@ export class MinioService {
       stream = Readable.from(file.buffer);
     } else if (file.path) {
       stream = fs.createReadStream(file.path);
+      stream = fs.createReadStream(file.path);
+      stream.on('close', () => fs.unlinkSync(file.path));
     } else {
       throw new Error('File or file path is undefined');
     }
@@ -58,10 +62,8 @@ export class MinioService {
       'Content-Type': file.mimetype,
     };
 
-    const bucketExists = await this.minioClient.bucketExists(bucketName);
-    if (!bucketExists) {
-      await this.minioClient.makeBucket(bucketName, 'us-east-1');
-    }
+    await this.ensureBucketExists(bucketName);
+
 
     return this.minioClient.putObject(
       bucketName,
@@ -70,6 +72,17 @@ export class MinioService {
       file.size,
       metaData,
     );
+  }
+
+  async ensureBucketExists(bucketName: string): Promise<void> {
+    if (this.bucketCache.has(bucketName)) return;
+  
+    const exists = await this.minioClient.bucketExists(bucketName);
+    if (!exists) {
+      await this.minioClient.makeBucket(bucketName, 'us-east-1');
+    }
+  
+    this.bucketCache.add(bucketName);
   }
 
   getFileUrl(bucketName: string, fileName: string): string {

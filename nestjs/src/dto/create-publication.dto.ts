@@ -13,6 +13,12 @@ export class CreatePublicationDto {
   @IsString()
   description: string;
 
+  @ApiProperty({ example: 'Animal perdido na rua XYZ.' })
+  @IsNotEmpty()
+  @IsString()
+  contactInfos: string;
+
+
   @ApiProperty({ example: 'perdido' })
   @IsNotEmpty()
   @IsString()
